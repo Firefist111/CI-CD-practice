@@ -20,18 +20,22 @@ jobs:
 
       - name: Install backend dependencies
         run: npm ci  # we use ci command to install the backend dependencies defined in the package-lock.json file. This ensures that the exact versions of dependencies are installed, which helps to avoid issues related to version mismatches.
+        working-directory: ./server
 
       - name: Lint backend code
         run: npm run lint -- --max-warnings=0  # This step runs the linting process on the backend code to check for code style and formatting issues. Linting helps to maintain code quality and consistency across the project.
+        working-directory: ./server
 
       - name: Install frontend dependencies
-        run: npm ci   # This step installs the frontend dependencies defined in the package-lock.json file located in the frontend directory. The --prefix option specifies the directory where the command should be executed.
+        run: npm ci   # This step installs the frontend dependencies defined in the package-lock.json file located in the frontend directory.
+        working-directory: ./client
 
       - name: Lint frontend code
-        run: npm run lint -- --max-warnings=0  # This step runs the linting process on the frontend code to check for code style and formatting issues. 
+        run: npm run lint -- --max-warnings=0  # This step runs the linting process on the frontend code to check for code style and formatting issues.
+        working-directory: ./client
 
       - name: Build backend Image
-        run: docker build -t backend-image ./backend  # This step builds a Docker image for the backend application using the Dockerfile located in the backend directory. The image is tagged as "backend-image".
+        run: docker build -t backend-image ./server  # This step builds a Docker image for the backend application using the Dockerfile located in the server directory. The image is tagged as "backend-image".
 
       - name: Build frontend Image
-        run: docker build -t frontend-image ./frontend  # This step builds a Docker image for the frontend application using the Dockerfile located in the frontend directory. The image is tagged as "frontend-image".
+        run: docker build -t frontend-image ./client  # This step builds a Docker image for the frontend application using the Dockerfile located in the client directory. The image is tagged as "frontend-image".
