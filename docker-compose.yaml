@@ -15,8 +15,6 @@ services:
     build: ./server
     ports:
       - "5001:5000"
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/ecommerce
     volumes:
       - ./server:/app
       - /app/node_modules
