@@ -1,0 +1,39 @@
+name: build-and-test
+on:
+  push:
+    branches:
+      - [main,dev]
+  pull_request:
+    branches:
+      - [main,dev]
+
+job:
+  build-and-test:
+    runs-on:ubuntu-latest  # we use runs-on: ubuntu-latest to specify the operating system for the job means that the job will run on the latest version of Ubuntu available in GitHub Actions. This ensures that the build and test processes are executed in a consistent environment, which helps to avoid issues related to differences in operating systems or configurations.
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3  # This step checks out the code from the repository so that it can be built and tested in subsequent steps.
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3  # This step sets up the Node.js environment for the job, allowing us to run Node.js commands and scripts.
+        with:
+          node-version: '22'  # This specifies the version of Node.js to use for the job. In this case, we are using version 22.
+
+      - name: Install backend dependencies
+        run: npm ci  # we use ci command to install the backend dependencies defined in the package-lock.json file. This ensures that the exact versions of dependencies are installed, which helps to avoid issues related to version mismatches.
+
+      - name: Lint backend code
+        run: npm run lint -- --max-warnings=0  # This step runs the linting process on the backend code to check for code style and formatting issues. Linting helps to maintain code quality and consistency across the project.
+
+      - name: Install frontend dependencies
+        run: npm ci   # This step installs the frontend dependencies defined in the package-lock.json file located in the frontend directory. The --prefix option specifies the directory where the command should be executed.
+
+      - name: Lint frontend code
+        run: npm run lint -- --max-warnings=0  # This step runs the linting process on the frontend code to check for code style and formatting issues. 
+
+      - name: Build backend Image
+        run: docker build -t backend-image ./backend  # This step builds a Docker image for the backend application using the Dockerfile located in the backend directory. The image is tagged as "backend-image".
+
+      - name: Build frontend Image
+        run: docker build -t frontend-image ./frontend  # This step builds a Docker image for the frontend application using the Dockerfile located in the frontend directory. The image is tagged as "frontend-image".

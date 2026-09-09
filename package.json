@@ -1,0 +1,17 @@
+{
+  "name": "ecommerce-crud-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-stack React & Node.js E-Commerce Product Management CRUD App",
+  "scripts": {
+    "install:server": "npm install --prefix server",
+    "install:client": "npm install --prefix client",
+    "install:all": "npm install --prefix server && npm install --prefix client",
+    "server": "node server/server.js",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"node server/server.js\" \"npm run dev --prefix client\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
