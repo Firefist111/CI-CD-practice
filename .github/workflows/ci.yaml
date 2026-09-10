@@ -58,7 +58,7 @@ jobs:
 
     - name: Write SSH key
       run: |
-        printf '%s\n' "$EC2_KEY" > ec2_key.pem
+        echo "${EC2_KEY}" | base64 -d > ec2_key.pem
         chmod 600 ec2_key.pem
       env:
         EC2_KEY: ${{ secrets.EC2_KEY }}
