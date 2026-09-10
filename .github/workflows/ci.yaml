@@ -58,8 +58,11 @@ jobs:
 
     - name: Write SSH key
       run: |
-        echo "${EC2_KEY}" | base64 -d > ec2_key.pem
+        echo "${EC2_KEY}" | base64 -d > ec2_key.pem 2>/dev/null || { echo "base64 decode failed"; exit 1; }
+        tr -d '\r' < ec2_key.pem > ec2_key.pem.tmp && mv ec2_key.pem.tmp ec2_key.pem
         chmod 600 ec2_key.pem
+        echo "--- fingerprint of deployed key ---"
+        ssh-keygen -lf ec2_key.pem
       env:
         EC2_KEY: ${{ secrets.EC2_KEY }}
 
