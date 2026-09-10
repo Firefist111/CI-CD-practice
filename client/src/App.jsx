@@ -117,11 +117,11 @@ function ProductForm({ initial, onSave, onClose }) {
             {error && <div className="error">{error}</div>}
           </div>
           <div className="form-group">
-            <label>Price ($)</label>
+            <label>Price ($)sjcnasjcn</label>
             <input type="number" step="0.01" min="0" value={price} onChange={e => setPrice(e.target.value)} placeholder="0.00" />
           </div>
           <div className="form-group">
-            <label>Description</label>
+            <label>Descriptions</label>
             <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Optional description..." rows="3" />
           </div>
           <div className="modal-actions">
